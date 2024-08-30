@@ -34,20 +34,18 @@ int main(int argc, char *argv[]) {
         }
     }
     // 所有进程再次同步
-    int i = rank;
-    for (int k = 0; k < log2(M); ++k) {
-        // MPI_Barrier(MPI_COMM_WORLD);
-        if (rank < M) {
+    if (rank < M) {
+        for (int k = 0; k < log2(M); ++k) {
+            // MPI_Barrier(MPI_COMM_WORLD);
             int temp[D];
-            int i = rank;
             int offset = pow(2, k);
-            int flag = i / offset;
+            int flag = rank / offset;
             if (flag % 2 == 0) {
-                printf("Step %d: rank %d send message to rank %d\n", k, rank, i + offset);
-                MPI_Send(a, N, MPI_INT, i + offset, 0, MPI_COMM_WORLD);
+                printf("Step %d: rank %d send message to rank %d\n", k, rank, rank + offset);
+                MPI_Send(a, N, MPI_INT, rank + offset, 0, MPI_COMM_WORLD);
             } else {
-                printf("Step %d: rank %d send message to rank %d\n", k, rank, i - offset);
-                MPI_Send(a, N, MPI_INT, i - offset, 0, MPI_COMM_WORLD);
+                printf("Step %d: rank %d send message to rank %d\n", k, rank, rank - offset);
+                MPI_Send(a, N, MPI_INT, rank - offset, 0, MPI_COMM_WORLD);
             }
             MPI_Recv(temp, N, MPI_INT, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             for (int i = 0; i < D; ++i) {
@@ -70,4 +68,4 @@ int main(int argc, char *argv[]) {
     // 清理MPI环境
     MPI_Finalize();
     return 0;
-}
+}  
