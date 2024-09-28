@@ -215,7 +215,6 @@ void scatter_reduce(float *data, float *recv_buf, int num_nodes, int data_size_p
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // 从主进程接收数据
     for (int i = 0; i < data_size_per_node; i++) {
         recv_buf[i] = data[rank * data_size_per_node + i];
     }
