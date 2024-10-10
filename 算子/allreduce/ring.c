@@ -68,8 +68,9 @@ void scatter_reduce(float *data, float *recv_buf, float *send_to_buf, int num_no
     }
 }
 
-void allgather(float *recv_buf, int num_nodes, int data_size_per_node) {
+void allgather(float *recv_buf, int num_nodes, int data_size_per_node, int total_data_size) {
     float *gathered_data = (float *)malloc(num_nodes * data_size_per_node * sizeof(float));
+    // float *gathered_data = (float *)malloc(total_data_size * sizeof(float));
     MPI_Allgather(recv_buf, data_size_per_node, MPI_FLOAT, gathered_data, data_size_per_node, MPI_FLOAT, MPI_COMM_WORLD);
 
     int rank;
@@ -89,7 +90,7 @@ int main(int argc, char **argv) {
     int num_nodes;
     MPI_Comm_size(MPI_COMM_WORLD, &num_nodes);
 
-    int total_data_size = 16;
+    int total_data_size = 17;
     int data_per_node = (total_data_size + num_nodes - 1) / num_nodes; // 每个节点的数据大小
 
     int rank;
@@ -104,7 +105,7 @@ int main(int argc, char **argv) {
     float *recv_buf = (float *)malloc(data_per_node * sizeof(float));
     float *send_to_buf = (float *)malloc(total_data_size * sizeof(float));
     scatter_reduce(all_data, recv_buf, send_to_buf, num_nodes, data_per_node, total_data_size);
-    allgather(recv_buf, num_nodes, data_per_node);
+    allgather(recv_buf, num_nodes, data_per_node, total_data_size);
 
     // 使用MPI_Allreduce进行结果验证
     float *allreduce_result = (float *)malloc(total_data_size * sizeof(float));
@@ -126,7 +127,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (rank == 0) {
+    if (rank == 1) {
         if (is_correct) {
             printf("Results match.\n");
         } else {
