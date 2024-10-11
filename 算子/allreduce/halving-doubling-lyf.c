@@ -243,7 +243,7 @@ int main(int argc, char** argv) {
     int num_nodes;
     MPI_Comm_size(MPI_COMM_WORLD, &num_nodes);
 
-    int total_data_size = 16;
+    int total_data_size = 1000000;
 
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -252,7 +252,7 @@ int main(int argc, char** argv) {
     float *sur_data = (float *)malloc(total_data_size * sizeof(float));
 
     for (int i = 0; i < total_data_size; i++) {
-        all_data[i] = rank; // 随机生成数据
+        all_data[i] = rand()%10; // 随机生成数据
         sur_data[i] = all_data[i]; // 复制数据
         // printf("%d\n",rank);
     }
@@ -395,7 +395,6 @@ int main(int argc, char** argv) {
     free(all_data);
     free(sur_data);
     free(allreduce_result);
-    MPI_Finalize();
     MPI_Finalize();
     return 0;
 }
