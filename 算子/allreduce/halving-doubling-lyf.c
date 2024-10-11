@@ -176,17 +176,13 @@ int largest_power_of_2(int k) {
     if (k == 0) {
         return 0;
     }
+    k>>=1;
+    int res=1;
+    for(;k>0;k>>=1){
+        res<<=1;
+    }
 
-    // 将 k 的最高位以下的所有位都设为 1
-    k |= (k >> 1);
-    k |= (k >> 2);
-    k |= (k >> 4);
-    k |= (k >> 8);
-    k |= (k >> 16);
-
-    // 现在 k 是比原始值大，但比 k 小的所有 1 都被填充了1
-    // 加上 1 并右移一位，得到最大的 2 次幂
-    return (k + 1) >> 1;
+    return res;
 }
 
 int ranktemp2rank(int rank_temp, int r){
@@ -256,7 +252,7 @@ int main(int argc, char** argv) {
     float *sur_data = (float *)malloc(total_data_size * sizeof(float));
 
     for (int i = 0; i < total_data_size; i++) {
-        all_data[i] = i; // 随机生成数据
+        all_data[i] = rank; // 随机生成数据
         sur_data[i] = all_data[i]; // 复制数据
         // printf("%d\n",rank);
     }
@@ -368,10 +364,11 @@ int main(int argc, char** argv) {
     MPI_Allreduce(sur_data, allreduce_result, total_data_size, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
 
     // 打印验证结果并进行比较
-    printf("Rank %d Scatter-reduce result: ", rank);
+    printf("Rank %d My_hb_allreduce result: ", rank);
     for(int i=0;i<total_data_size;i++){
-        printf("%f", all_data[i]);
+        printf("%f ", all_data[i]);
     }
+    printf("\n");
 
     printf("Rank %d Allreduce result: ", rank);
     for (int i = 0; i < total_data_size; i++) {
