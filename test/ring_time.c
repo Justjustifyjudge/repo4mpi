@@ -93,8 +93,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    // 分配数据之前的时间
-    start_time = MPI_Wtime();
+    
 
     int data_per_node = (total_data_size + num_nodes - 1) / num_nodes;
     int rank;
@@ -102,6 +101,9 @@ int main(int argc, char **argv) {
 
     float *recv_buf = (float *)malloc(data_per_node * sizeof(float));
     float *send_to_buf = (float *)malloc(total_data_size * sizeof(float));
+
+    // 分配数据之前的时间
+    start_time = MPI_Wtime();
 
     scatter_reduce(all_data, recv_buf, send_to_buf, num_nodes, data_per_node, total_data_size);
 
