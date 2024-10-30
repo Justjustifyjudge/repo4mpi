@@ -232,10 +232,10 @@ int main(int argc, char** argv) {
     MPI_Reduce(&node_bandwidth, &total_bandwidth, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     // 输出带宽结果
-    if (rank == 0) {
-        printf("节点带宽: %f MB/s\n", node_bandwidth / (1024 * 1024));
+    printf("%i节点带宽: %f MB/s\n", rank,node_bandwidth / (1024 * 1024));
+    printf("HB-Allreduce阶段总耗时: %f 秒\n", end_time - start_time);
+    if(rank==0){
         printf("总体带宽: %f MB/s\n", total_bandwidth / (1024 * 1024));
-        printf("Ring-Allreduce阶段总耗时: %f 秒\n", end_time - start_time);
     }
 
     free(all_data);
