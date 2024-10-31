@@ -32,7 +32,7 @@ plt.plot(log_packet_size, df["node bandwidth (Mbps)"], marker='o', color='g', la
 # 设置图表标签和标题
 plt.xlabel("Data Packet Size (MB)")
 plt.ylabel("Node Bandwidth (Mbps)")
-plt.title("Variation of Node Bandwidth with Data Packet Size (Log2)")
+# plt.title("Variation of Node Bandwidth with Data Packet Size (Log2)")
 plt.xticks(log_packet_size, labels=df["data packet size (MB)"])  # 显示原始数据包大小
 plt.ylim(0, 250)  # 设置纵轴范围
 plt.legend()
@@ -44,12 +44,13 @@ plt.figure(figsize=(10, 6))
 plt.plot(log_packet_size, df["total bandwidth (Mbps)"], marker='o', color='r', label="Total Bandwidth")
 
 # 设置图表标签和标题
-plt.xlabel("Data Packet Size (MB)")
-plt.ylabel("Total Bandwidth (Mbps)")
-plt.title("Variation of Total Bandwidth with Data Packet Size (Log2)")
-plt.xticks(log_packet_size, labels=df["data packet size (MB)"])  # 显示原始数据包大小
+plt.xlabel("Data Packet Size (MB)", fontsize=20)
+plt.ylabel("Total Bandwidth (Mbps)", fontsize=20)
+# plt.title("Variation of Total Bandwidth with Data Packet Size (Log2)")
+plt.xticks(log_packet_size, labels=df["data packet size (MB)"], fontsize=20)  # 显示原始数据包大小
 plt.ylim(0, 250)  # 设置纵轴范围
-plt.legend()
+plt.yticks(fontsize=20)
+plt.legend(fontsize=20)
 plt.grid(True)
 plt.show()
 
@@ -58,11 +59,12 @@ plt.figure(figsize=(10, 6))
 plt.plot(log_packet_size, df["allreduce time cost (s)"], marker='o', color='b', label="Allreduce Time Cost")
 
 # 设置图表标签和标题
-plt.xlabel("Data Packet Size (MB)")
-plt.ylabel("Allreduce Time Cost (s)")
+plt.xlabel("Data Packet Size (MB)", fontsize=20)
+plt.ylabel("Allreduce Time Cost (s)", fontsize=20)
 plt.title("The Influence of Data Packet Size on Allreduce Time Cost (Log2)")
-plt.xticks(log_packet_size, labels=df["data packet size (MB)"])  # 显示原始数据包大小
-plt.legend()
+plt.xticks(log_packet_size, labels=df["data packet size (MB)"],fontsize=20)  # 显示原始数据包大小
+plt.yticks(fontsize=20)
+plt.legend(fontsize=20)
 plt.grid(True)
 plt.show()
 
